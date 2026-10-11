@@ -948,28 +948,47 @@
     data.append('_captcha', 'false');
     const ctrl = new AbortController();
     const timeout = setTimeout(() => ctrl.abort(), 20000);
+    let json = null, networkFail = false;
     try {
-      const res  = await fetch(ORDER_ENDPOINT, { method: 'POST', headers: { 'Accept': 'application/json' }, body: data, signal: ctrl.signal });
-      const json = await res.json();
-      if (json.success === 'true' || json.success === true) {
-        orderMsg.className = 'order-msg ok';
-        orderMsg.textContent = 'Order placed! We will contact you shortly to confirm.';
-        orderForm.reset();
-        cart = []; renderCart();
-        setTimeout(closeOrder, 3500);
-      } else {
-        console.error('FormSubmit response:', json);
-        throw new Error(json.message || 'Submission failed');
-      }
+      const res = await fetch(ORDER_ENDPOINT, { method: 'POST', headers: { 'Accept': 'application/json' }, body: data, signal: ctrl.signal });
+      try { json = await res.json(); } catch (_) { json = { message: 'Unexpected response (HTTP ' + res.status + ')' }; }
     } catch (err) {
-      console.error('Order error:', err);
-      orderMsg.className = 'order-msg err';
-      orderMsg.textContent = (err.name === 'AbortError' ? 'Request timed out. ' : '') + 'Could not send the order. Please try again or call 0746 392 602.';
-    } finally {
-      clearTimeout(timeout);
-      setLoading(false);
+      networkFail = true;
+      console.error('Order network error:', err);
     }
+    clearTimeout(timeout);
+
+    if (json && (json.success === 'true' || json.success === true)) {
+      orderMsg.className = 'order-msg ok';
+      orderMsg.textContent = 'Order placed! We will contact you shortly to confirm.';
+      orderForm.reset();
+      cart = []; renderCart();
+      setLoading(false);
+      setTimeout(closeOrder, 3500);
+      return;
+    }
+    if (networkFail) { nativeSubmit(data); return; } // AJAX blocked/failed: fall back to a normal form post
+    console.error('FormSubmit response:', json);
+    orderMsg.className = 'order-msg err';
+    orderMsg.textContent = 'Could not send the order: ' + ((json && json.message) || 'unknown error') + '. You can also call 0746 392 602.';
+    setLoading(false);
   });
+
+  // Fallback: plain form POST (no CORS needed). FormSubmit redirects back here with ?order=sent
+  function nativeSubmit(data) {
+    const f = document.createElement('form');
+    f.method = 'POST'; f.action = 'https://formsubmit.co/cmutai352@gmail.com'; f.style.display = 'none';
+    data.append('_next', location.origin + location.pathname + '?order=sent');
+    data.forEach((v, k) => { const i = document.createElement('input'); i.type = 'hidden'; i.name = k; i.value = v; f.appendChild(i); });
+    document.body.appendChild(f);
+    f.submit();
+  }
+
+  if (location.search.indexOf('order=sent') !== -1) {
+    cart = []; saveCart();
+    history.replaceState(null, '', location.pathname + location.hash);
+    setTimeout(() => toast('Order placed! We will contact you shortly.'), 400);
+  }
 
   renderCart();
 
