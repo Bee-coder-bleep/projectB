@@ -172,6 +172,69 @@
     .float-call { background: var(--green); color: white; }
     .float-btn:hover { transform: scale(1.12); }
 
+
+    /* ── Order Modal ── */
+    .order-modal { position: fixed; inset: 0; background: rgba(10,30,18,.7); display: none; align-items: center; justify-content: center; padding: 1rem; z-index: 10000; overflow-y: auto; }
+    .order-modal.open { display: flex; }
+    .order-box { background: var(--white); border-radius: var(--radius-lg); width: 100%; max-width: 520px; padding: 2rem; position: relative; box-shadow: var(--shadow-lg); max-height: 94vh; overflow-y: auto; }
+    .order-close { position: absolute; top: .8rem; right: 1rem; background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--muted); line-height: 1; }
+    .order-box h3 { font-family: var(--font-display); font-size: 1.7rem; color: var(--dark); }
+    .order-summary { background: var(--green-pale); color: var(--green); font-weight: 600; font-size: .9rem; padding: .6rem .9rem; border-radius: 8px; margin: .8rem 0 1.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; }
+    .form-group { margin-bottom: .9rem; display: flex; flex-direction: column; }
+    .form-group label { font-size: .78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: .3rem; }
+    .form-group input, .form-group textarea { font-family: var(--font-body); font-size: .95rem; padding: .65rem .8rem; border: 1px solid var(--gray-line); border-radius: 6px; outline: none; transition: border-color var(--transition); width: 100%; }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--green); }
+    .order-submit { width: 100%; justify-content: center; margin-top: .4rem; padding: .85rem; font-size: 1rem; }
+    .order-submit:disabled { opacity: .8; cursor: not-allowed; }
+    .order-submit .spinner { display: none; width: 18px; height: 18px; border: 3px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; }
+    .order-submit.loading .spinner { display: inline-block; }
+    .order-submit.loading .btn-icon { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .order-msg { margin-top: .8rem; font-size: .9rem; text-align: center; }
+    .order-msg.ok { color: var(--green); font-weight: 600; }
+    .order-msg.err { color: #c0392b; }
+    .hp { position: absolute; left: -9999px; }
+    @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
+
+
+    /* ── Cart ── */
+    .float-cart { background: var(--dark); color: white; border: none; cursor: pointer; position: relative; }
+    .cart-count { position: absolute; top: -4px; right: -4px; min-width: 22px; height: 22px; padding: 0 5px; border-radius: 11px; background: #e74c3c; color: #fff; font-size: .72rem; font-weight: 700; display: none; align-items: center; justify-content: center; font-family: var(--font-body); }
+    .cart-overlay { position: fixed; inset: 0; background: rgba(10,30,18,.55); opacity: 0; visibility: hidden; transition: var(--transition); z-index: 10000; }
+    .cart-overlay.open { opacity: 1; visibility: visible; }
+    .cart-drawer { position: fixed; top: 0; right: 0; height: 100%; width: min(420px, 100%); background: var(--white); z-index: 10001; display: flex; flex-direction: column; transform: translateX(100%); transition: transform .35s cubic-bezier(.4,0,.2,1); box-shadow: var(--shadow-lg); }
+    .cart-drawer.open { transform: translateX(0); }
+    .cart-head { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--gray-line); }
+    .cart-head h3 { font-family: var(--font-display); font-size: 1.6rem; color: var(--dark); }
+    .cart-head button { background: none; border: none; font-size: 1.9rem; cursor: pointer; color: var(--muted); line-height: 1; }
+    .cart-items { flex: 1; overflow-y: auto; padding: 1rem 1.5rem; }
+    .cart-empty { text-align: center; color: var(--muted); margin-top: 3rem; }
+    .cart-item { padding: .9rem 0; border-bottom: 1px solid var(--gray-line); }
+    .cart-item-top { display: flex; justify-content: space-between; gap: .8rem; align-items: flex-start; }
+    .cart-item-name { font-weight: 700; color: var(--dark); }
+    .cart-item-price { font-size: .82rem; color: var(--muted); }
+    .cart-del { background: none; border: none; color: #c0392b; cursor: pointer; font-size: .95rem; }
+    .cart-item-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: .6rem; }
+    .qty-ctrl { display: inline-flex; align-items: center; border: 1px solid var(--gray-line); border-radius: 6px; overflow: hidden; }
+    .qty-ctrl button { width: 30px; height: 30px; border: none; background: var(--green-pale); color: var(--green); font-size: 1.1rem; font-weight: 700; cursor: pointer; }
+    .qty-ctrl button:hover { background: var(--green-mid); }
+    .qty-ctrl input { width: 48px; height: 30px; border: none; text-align: center; font-family: var(--font-body); font-size: .9rem; outline: none; -moz-appearance: textfield; }
+    .qty-ctrl input::-webkit-outer-spin-button, .qty-ctrl input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .cart-line-total { font-weight: 700; color: var(--green); }
+    .cart-foot { padding: 1.2rem 1.5rem; border-top: 1px solid var(--gray-line); background: var(--gray-bg); }
+    .cart-total { display: flex; justify-content: space-between; font-size: 1.15rem; margin-bottom: .3rem; }
+    .cart-note { display: block; color: var(--muted); font-size: .75rem; min-height: 1rem; margin-bottom: .8rem; }
+    .cart-actions { display: flex; gap: .6rem; }
+    .cart-actions .btn { justify-content: center; }
+    .cart-actions .btn-primary { flex: 1; }
+    .cart-actions .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .cart-toast { position: fixed; bottom: 2rem; left: 50%; transform: translate(-50%, 20px); background: var(--dark); color: #fff; padding: .7rem 1.3rem; border-radius: 30px; font-size: .88rem; opacity: 0; visibility: hidden; transition: var(--transition); z-index: 10002; max-width: 90%; text-align: center; }
+    .cart-toast.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+    .order-items { background: var(--green-pale); border-radius: 8px; padding: .7rem .9rem; margin: .8rem 0 1.2rem; font-size: .88rem; max-height: 170px; overflow-y: auto; }
+    .order-items .oi { display: flex; justify-content: space-between; gap: 1rem; padding: .2rem 0; }
+    .order-items .oi-total { border-top: 1px solid var(--green-mid); margin-top: .4rem; padding-top: .5rem; font-weight: 700; color: var(--green); }
+
     /* ── Responsive ── */
     @media (max-width: 900px) {
       .topbar-links { display: none; }
@@ -221,8 +284,8 @@
       <a href="#support"><i class="fa-solid fa-phone"></i> Contact</a>
     </div>
     <div class="topbar-right">
-      <a href="tel:+254715563213"><i class="fa-solid fa-phone"></i> 0715 563 213</a>
-      <a href="https://wa.me/254715563213" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+      <a href="tel:+254746392602"><i class="fa-solid fa-phone"></i> 0746 392 602</a>
+      <a href="https://wa.me/254746392602" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
     </div>
   </div>
 </div>
@@ -313,7 +376,7 @@
           <p class="price"><span class="old-price">KSh 705.00</span><span class="new-price">KSh 548.25</span></p>
           <div class="product-card-actions">
             <a href="#" class="btn btn-outline btn-sm">Details</a>
-            <a href="https://wa.me/254715563213?text=Hi%2C%20I%20would%20like%20to%20order%20Fundi%20Cement" target="_blank" class="btn btn-primary btn-sm">Buy Now <i class="fa-brands fa-whatsapp"></i></a>
+            <button type="button" class="btn btn-primary btn-sm buy-btn" data-product="Fundi Cement">Add to Cart <i class="fa-solid fa-cart-plus"></i></button>
           </div>
         </div>
       </div>
@@ -329,7 +392,7 @@
           <p class="price"><span class="old-price">KSh 780.00</span><span class="new-price">KSh 586.50</span></p>
           <div class="product-card-actions">
             <a href="#" class="btn btn-outline btn-sm">Details</a>
-            <a href="https://wa.me/254715563213?text=Hi%2C%20I%20would%20like%20to%20order%20Tembo%20Cement" target="_blank" class="btn btn-primary btn-sm">Buy Now <i class="fa-brands fa-whatsapp"></i></a>
+            <button type="button" class="btn btn-primary btn-sm buy-btn" data-product="Tembo Cement">Add to Cart <i class="fa-solid fa-cart-plus"></i></button>
           </div>
         </div>
       </div>
@@ -345,7 +408,7 @@
           <p class="price"><span class="old-price">KSh 795.00</span><span class="new-price">KSh 629.00</span></p>
           <div class="product-card-actions">
             <a href="#" class="btn btn-outline btn-sm">Details</a>
-            <a href="https://wa.me/254715563213?text=Hi%2C%20I%20would%20like%20to%20order%20Nguvu%20Cement" target="_blank" class="btn btn-primary btn-sm">Buy Now <i class="fa-brands fa-whatsapp"></i></a>
+            <button type="button" class="btn btn-primary btn-sm buy-btn" data-product="Nguvu Cement">Add to Cart <i class="fa-solid fa-cart-plus"></i></button>
           </div>
         </div>
       </div>
@@ -361,7 +424,7 @@
           <p class="price"><span class="old-price">KSh 1,350.00</span><span class="new-price">KSh 1,079.50</span></p>
           <div class="product-card-actions">
             <a href="#" class="btn btn-outline btn-sm">Details</a>
-            <a href="https://wa.me/254715563213?text=Hi%2C%20I%20would%20like%20to%20order%20Powerplus%2052.5" target="_blank" class="btn btn-primary btn-sm">Buy Now <i class="fa-brands fa-whatsapp"></i></a>
+            <button type="button" class="btn btn-primary btn-sm buy-btn" data-product="Powerplus 52.5">Add to Cart <i class="fa-solid fa-cart-plus"></i></button>
           </div>
         </div>
       </div>
@@ -376,7 +439,7 @@
           <p>Versatile composite cement ideal for residential and mid-rise construction.</p>
           <div class="product-card-actions">
             <a href="#" class="btn btn-outline btn-sm">Details</a>
-            <a href="https://wa.me/254715563213?text=Hi%2C%20I%20would%20like%20to%20order%20Bamburi%20SETI%20300" target="_blank" class="btn btn-primary btn-sm">Buy Now <i class="fa-brands fa-whatsapp"></i></a>
+            <button type="button" class="btn btn-primary btn-sm buy-btn" data-product="Bamburi SETI 300">Add to Cart <i class="fa-solid fa-cart-plus"></i></button>
           </div>
         </div>
       </div>
@@ -391,7 +454,7 @@
           <p>Enhanced durability mix for bridges, retaining walls, and marine structures.</p>
           <div class="product-card-actions">
             <a href="#" class="btn btn-outline btn-sm">Details</a>
-            <a href="https://wa.me/254715563213?text=Hi%2C%20I%20would%20like%20to%20order%20Bamburi%20Powercrete" target="_blank" class="btn btn-primary btn-sm">Buy Now <i class="fa-brands fa-whatsapp"></i></a>
+            <button type="button" class="btn btn-primary btn-sm buy-btn" data-product="Bamburi Powercrete">Add to Cart <i class="fa-solid fa-cart-plus"></i></button>
           </div>
         </div>
       </div>
@@ -407,7 +470,7 @@
           <p class="price"><span class="old-price">KSh 1,230.00</span><span class="new-price">KSh 1,045.50</span></p>
           <div class="product-card-actions">
             <a href="#" class="btn btn-outline btn-sm">Details</a>
-            <a href="https://wa.me/254715563213?text=Hi%2C%20I%20would%20like%20to%20order%20Bamburi%20Duracem" target="_blank" class="btn btn-primary btn-sm">Buy Now <i class="fa-brands fa-whatsapp"></i></a>
+            <button type="button" class="btn btn-primary btn-sm buy-btn" data-product="Bamburi Duracem">Add to Cart <i class="fa-solid fa-cart-plus"></i></button>
           </div>
         </div>
       </div>
@@ -423,7 +486,7 @@
           <p class="price"><span class="old-price">KSh 1,090.00</span><span class="new-price">KSh 833.00</span></p>
           <div class="product-card-actions">
             <a href="#" class="btn btn-outline btn-sm">Details</a>
-            <a href="https://wa.me/254715563213?text=Hi%2C%20I%20would%20like%20to%20order%20Powermax%2052.5" target="_blank" class="btn btn-primary btn-sm">Buy Now <i class="fa-brands fa-whatsapp"></i></a>
+            <button type="button" class="btn btn-primary btn-sm buy-btn" data-product="Powermax 52.5">Add to Cart <i class="fa-solid fa-cart-plus"></i></button>
           </div>
         </div>
       </div>
@@ -446,7 +509,7 @@
         <div class="product-card-body">
           <h3>Precast Concrete</h3>
           <p>Factory-cast beams, blocks, and paving slabs manufactured to specification.</p>
-          <a href="https://wa.me/254715563213?text=Hi%2C%20I%20would%20like%20a%20quote%20for%20Precast%20Concrete" target="_blank" class="btn btn-primary btn-sm">Request Quote <i class="fa-brands fa-whatsapp"></i></a>
+          <a href="https://wa.me/254746392602?text=Hi%2C%20I%20would%20like%20a%20quote%20for%20Precast%20Concrete" target="_blank" class="btn btn-primary btn-sm">Request Quote <i class="fa-brands fa-whatsapp"></i></a>
         </div>
       </div>
       <div class="product-card">
@@ -454,7 +517,7 @@
         <div class="product-card-body">
           <h3>Readymix Concrete</h3>
           <p>Delivered fresh to site in custom grades — C20 to C50 and beyond.</p>
-          <a href="https://wa.me/254715563213?text=Hi%2C%20I%20would%20like%20a%20quote%20for%20Readymix%20Concrete" target="_blank" class="btn btn-primary btn-sm">Get Quote <i class="fa-brands fa-whatsapp"></i></a>
+          <a href="https://wa.me/254746392602?text=Hi%2C%20I%20would%20like%20a%20quote%20for%20Readymix%20Concrete" target="_blank" class="btn btn-primary btn-sm">Get Quote <i class="fa-brands fa-whatsapp"></i></a>
         </div>
       </div>
       <div class="product-card">
@@ -462,7 +525,7 @@
         <div class="product-card-body">
           <h3>Ultra-Series UHPC</h3>
           <p>Ultra High Performance Concrete for landmark structures requiring exceptional strength.</p>
-          <a href="https://wa.me/254715563213?text=Hi%2C%20I%20would%20like%20to%20inquire%20about%20Ultra%20Series%20UHPC" target="_blank" class="btn btn-primary btn-sm">Inquire <i class="fa-brands fa-whatsapp"></i></a>
+          <a href="https://wa.me/254746392602?text=Hi%2C%20I%20would%20like%20to%20inquire%20about%20Ultra%20Series%20UHPC" target="_blank" class="btn btn-primary btn-sm">Inquire <i class="fa-brands fa-whatsapp"></i></a>
         </div>
       </div>
     </div>
@@ -616,8 +679,8 @@
         <p>Ready to assist with product selection, pricing, and technical advice.</p>
       </div>
       <div class="support-contacts">
-        <p><i class="fa-solid fa-phone"></i> <a href="tel:+254715563213">0715 563 213</a></p>
-        <p><i class="fa-brands fa-whatsapp"></i> <a href="https://wa.me/254715563213" target="_blank">0715 563 213</a></p>
+        <p><i class="fa-solid fa-phone"></i> <a href="tel:+254746392602">0746 392 602</a></p>
+        <p><i class="fa-brands fa-whatsapp"></i> <a href="https://wa.me/254746392602" target="_blank">0746 392 602</a></p>
         <p><i class="fa-solid fa-envelope"></i> <a href="mailto:support@bamburi.co.ke">support@bamburi.co.ke</a></p>
       </div>
       <a href="mailto:support@bamburi.co.ke" class="btn btn-white">Email Us <i class="fa-solid fa-arrow-right"></i></a>
@@ -668,10 +731,49 @@
   </div>
 </footer>
 
+<!-- Cart Drawer -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart">
+  <div class="cart-head"><h3><i class="fa-solid fa-cart-shopping"></i> Your Cart</h3><button type="button" id="cartClose" aria-label="Close cart">&times;</button></div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot">
+    <div class="cart-total"><span>Total</span><strong id="cartTotal">KSh 0.00</strong></div>
+    <small class="cart-note" id="cartNote"></small>
+    <div class="cart-actions">
+      <button type="button" class="btn btn-outline btn-sm" id="clearCart">Clear</button>
+      <button type="button" class="btn btn-primary" id="checkoutBtn">Checkout <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+  </div>
+</aside>
+<div class="cart-toast" id="cartToast"></div>
+
+<!-- Order Modal -->
+<div class="order-modal" id="orderModal" role="dialog" aria-modal="true" aria-labelledby="orderTitle">
+  <div class="order-box">
+    <button type="button" class="order-close" id="orderClose" aria-label="Close">&times;</button>
+    <h3 id="orderTitle">Place Your Order</h3>
+    <div class="order-items" id="orderSummary"></div>
+    <form id="orderForm">
+      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off">
+      <div class="form-row">
+        <div class="form-group"><label for="fName">Full Name *</label><input type="text" id="fName" name="Name" required></div>
+        <div class="form-group"><label for="fPhone">Phone *</label><input type="tel" id="fPhone" name="Phone" required placeholder="07XX XXX XXX"></div>
+      </div>
+      <div class="form-group"><label for="fEmail">Email</label><input type="email" id="fEmail" name="Customer Email"></div>
+      <div class="form-group"><label for="fTown">Town / Area *</label><input type="text" id="fTown" name="Town" required></div>
+      <div class="form-group"><label for="fAddress">Delivery Address / Site *</label><input type="text" id="fAddress" name="Delivery Address" required></div>
+      <div class="form-group"><label for="fNotes">Notes</label><textarea id="fNotes" name="Notes" rows="2"></textarea></div>
+      <button type="submit" class="btn btn-primary order-submit" id="orderSubmit"><span class="spinner"></span><span class="btn-label">Place Order</span> <i class="fa-solid fa-paper-plane btn-icon"></i></button>
+      <div class="order-msg" id="orderMsg"></div>
+    </form>
+  </div>
+</div>
+
 <!-- Floating Buttons -->
 <div class="float-buttons">
-  <a href="tel:+254715563213" class="float-btn float-call" aria-label="Call us"><i class="fas fa-phone-alt"></i></a>
-  <a href="https://wa.me/254715563213?text=Hi%2C%20I%20would%20like%20to%20make%20a%20purchase" target="_blank" class="float-btn float-wa" aria-label="WhatsApp us"><i class="fa-brands fa-whatsapp"></i></a>
+  <button type="button" class="float-btn float-cart" id="cartFab" aria-label="Open cart"><i class="fa-solid fa-cart-shopping"></i><span class="cart-count" id="cartCount">0</span></button>
+  <a href="tel:+254746392602" class="float-btn float-call" aria-label="Call us"><i class="fas fa-phone-alt"></i></a>
+  <a href="https://wa.me/254746392602?text=Hi%2C%20I%20would%20like%20to%20make%20a%20purchase" target="_blank" class="float-btn float-wa" aria-label="WhatsApp us"><i class="fa-brands fa-whatsapp"></i></a>
 </div>
 
 <script>
@@ -707,6 +809,169 @@
       }
     });
   });
+
+  // ── Cart ──
+  const CART_KEY = 'bamburiCart';
+  let cart = [];
+  try { cart = JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch (e) { cart = []; }
+  const saveCart = () => { try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch (e) {} };
+  const fmt = n => 'KSh ' + n.toLocaleString('en-KE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const esc = t => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  const cartDrawer  = document.getElementById('cartDrawer');
+  const cartOverlay = document.getElementById('cartOverlay');
+  const cartItemsEl = document.getElementById('cartItems');
+  const cartTotalEl = document.getElementById('cartTotal');
+  const cartNoteEl  = document.getElementById('cartNote');
+  const cartCountEl = document.getElementById('cartCount');
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  const toastEl     = document.getElementById('cartToast');
+  let toastTimer;
+
+  function toast(msg) {
+    toastEl.textContent = msg; toastEl.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1800);
+  }
+  function openCart()  { cartDrawer.classList.add('open'); cartOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeCart() { cartDrawer.classList.remove('open'); cartOverlay.classList.remove('open'); if (!orderModal.classList.contains('open')) document.body.style.overflow = ''; }
+
+  function cartTotals() {
+    let total = 0, unpriced = 0, count = 0;
+    cart.forEach(i => { count += i.qty; if (i.price == null) unpriced++; else total += i.price * i.qty; });
+    return { total, unpriced, count };
+  }
+
+  function renderCart() {
+    const { total, unpriced, count } = cartTotals();
+    cartCountEl.textContent = count;
+    cartCountEl.style.display = count ? 'flex' : 'none';
+    if (!cart.length) {
+      cartItemsEl.innerHTML = '<p class="cart-empty">Your cart is empty.</p>';
+    } else {
+      cartItemsEl.innerHTML = cart.map((i, idx) => `
+        <div class="cart-item">
+          <div class="cart-item-top">
+            <div><div class="cart-item-name">${esc(i.name)}</div><div class="cart-item-price">${i.price == null ? 'Price on request' : fmt(i.price) + ' / bag'}</div></div>
+            <button type="button" class="cart-del" data-act="del" data-i="${idx}" aria-label="Remove"><i class="fa-solid fa-trash"></i></button>
+          </div>
+          <div class="cart-item-bottom">
+            <div class="qty-ctrl">
+              <button type="button" data-act="dec" data-i="${idx}" aria-label="Decrease">&minus;</button>
+              <input type="number" class="qty-input" min="1" value="${i.qty}" data-i="${idx}" aria-label="Quantity">
+              <button type="button" data-act="inc" data-i="${idx}" aria-label="Increase">+</button>
+            </div>
+            <div class="cart-line-total">${i.price == null ? '—' : fmt(i.price * i.qty)}</div>
+          </div>
+        </div>`).join('');
+    }
+    cartTotalEl.textContent = fmt(total);
+    cartNoteEl.textContent = unpriced ? 'Items priced on request are not included in the total.' : '';
+    checkoutBtn.disabled = !cart.length;
+    saveCart();
+  }
+
+  document.querySelectorAll('.buy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const name = btn.dataset.product;
+      const priceEl = btn.closest('.product-card').querySelector('.new-price');
+      const price = priceEl ? parseFloat(priceEl.textContent.replace(/[^0-9.]/g, '')) : null;
+      const existing = cart.find(i => i.name === name);
+      if (existing) existing.qty++; else cart.push({ name, price, qty: 1 });
+      renderCart();
+      toast(name + ' added to cart');
+    });
+  });
+
+  cartItemsEl.addEventListener('click', e => {
+    const b = e.target.closest('[data-act]'); if (!b) return;
+    const i = +b.dataset.i;
+    if (b.dataset.act === 'inc') cart[i].qty++;
+    else if (b.dataset.act === 'dec') cart[i].qty = Math.max(1, cart[i].qty - 1);
+    else if (b.dataset.act === 'del') cart.splice(i, 1);
+    renderCart();
+  });
+  cartItemsEl.addEventListener('change', e => {
+    if (!e.target.matches('.qty-input')) return;
+    cart[+e.target.dataset.i].qty = Math.max(1, parseInt(e.target.value) || 1);
+    renderCart();
+  });
+
+  document.getElementById('cartFab').addEventListener('click', openCart);
+  document.getElementById('cartClose').addEventListener('click', closeCart);
+  cartOverlay.addEventListener('click', closeCart);
+  document.getElementById('clearCart').addEventListener('click', () => { cart = []; renderCart(); });
+
+  // ── Order form (checkout) ──
+  const orderModal = document.getElementById('orderModal');
+  const orderForm  = document.getElementById('orderForm');
+  const orderMsg   = document.getElementById('orderMsg');
+  const orderBtn   = document.getElementById('orderSubmit');
+  const ORDER_ENDPOINT = 'https://formsubmit.co/ajax/cmutai352@gmail.com';
+
+  function closeOrder() { orderModal.classList.remove('open'); document.body.style.overflow = ''; }
+
+  checkoutBtn.addEventListener('click', () => {
+    if (!cart.length) return;
+    const { total, unpriced } = cartTotals();
+    document.getElementById('orderSummary').innerHTML =
+      cart.map(i => `<div class="oi"><span>${esc(i.name)} × ${i.qty}</span><span>${i.price == null ? 'On request' : fmt(i.price * i.qty)}</span></div>`).join('') +
+      `<div class="oi oi-total"><span>Total${unpriced ? ' (excl. on-request items)' : ''}</span><span>${fmt(total)}</span></div>`;
+    orderMsg.textContent = ''; orderMsg.className = 'order-msg';
+    setLoading(false);
+    cartDrawer.classList.remove('open'); cartOverlay.classList.remove('open');
+    orderModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+
+  document.getElementById('orderClose').addEventListener('click', closeOrder);
+  orderModal.addEventListener('click', e => { if (e.target === orderModal) closeOrder(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeOrder(); closeCart(); } });
+
+  function setLoading(on) {
+    orderBtn.disabled = on;
+    orderBtn.classList.toggle('loading', on);
+    orderBtn.querySelector('.btn-label').textContent = on ? 'Sending order…' : 'Place Order';
+  }
+
+  orderForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!cart.length) return;
+    setLoading(true);
+    orderMsg.className = 'order-msg'; orderMsg.textContent = '';
+    const { total, unpriced } = cartTotals();
+    const data = new FormData(orderForm);
+    cart.forEach((i, idx) => data.append('Item ' + (idx + 1),
+      i.name + ' × ' + i.qty + ' bags' + (i.price == null ? ' (price on request)' : ' @ ' + fmt(i.price) + ' = ' + fmt(i.price * i.qty))));
+    data.append('Order Total', fmt(total) + (unpriced ? ' (excludes items priced on request)' : ''));
+    data.append('_subject', 'New Order (' + cart.length + ' item' + (cart.length > 1 ? 's' : '') + ') – ' + document.getElementById('fName').value);
+    data.append('_template', 'table');
+    data.append('_captcha', 'false');
+    const ctrl = new AbortController();
+    const timeout = setTimeout(() => ctrl.abort(), 20000);
+    try {
+      const res  = await fetch(ORDER_ENDPOINT, { method: 'POST', headers: { 'Accept': 'application/json' }, body: data, signal: ctrl.signal });
+      const json = await res.json();
+      if (json.success === 'true' || json.success === true) {
+        orderMsg.className = 'order-msg ok';
+        orderMsg.textContent = 'Order placed! We will contact you shortly to confirm.';
+        orderForm.reset();
+        cart = []; renderCart();
+        setTimeout(closeOrder, 3500);
+      } else {
+        console.error('FormSubmit response:', json);
+        throw new Error(json.message || 'Submission failed');
+      }
+    } catch (err) {
+      console.error('Order error:', err);
+      orderMsg.className = 'order-msg err';
+      orderMsg.textContent = (err.name === 'AbortError' ? 'Request timed out. ' : '') + 'Could not send the order. Please try again or call 0746 392 602.';
+    } finally {
+      clearTimeout(timeout);
+      setLoading(false);
+    }
+  });
+
+  renderCart();
 
   // ── Hero Slideshow ──
   const slides = document.querySelectorAll('.hero-slide');
