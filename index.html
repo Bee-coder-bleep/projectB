@@ -970,7 +970,7 @@
     if (networkFail) { nativeSubmit(data); return; } // AJAX blocked/failed: fall back to a normal form post
     console.error('FormSubmit response:', json);
     orderMsg.className = 'order-msg err';
-    orderMsg.textContent = 'Could not send the order: ' + ((json && json.message) || 'unknown error') + '. You can also call 0746 392 602.';
+    orderMsg.textContent = 'Order Not Sent. Please Call 0746 392 602.';
     setLoading(false);
   });
 
