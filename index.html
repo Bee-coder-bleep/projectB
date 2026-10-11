@@ -906,7 +906,7 @@
   const orderForm  = document.getElementById('orderForm');
   const orderMsg   = document.getElementById('orderMsg');
   const orderBtn   = document.getElementById('orderSubmit');
-  const ORDER_ENDPOINT = 'https://formsubmit.co/ajax/cmutai352@gmail.com';
+  const ORDER_ENDPOINT = 'https://formsubmit.co/ajax/jepkoechdilex@gmail.com';
 
   function closeOrder() { orderModal.classList.remove('open'); document.body.style.overflow = ''; }
 
@@ -977,7 +977,7 @@
   // Fallback: plain form POST (no CORS needed). FormSubmit redirects back here with ?order=sent
   function nativeSubmit(data) {
     const f = document.createElement('form');
-    f.method = 'POST'; f.action = 'https://formsubmit.co/cmutai352@gmail.com'; f.style.display = 'none';
+    f.method = 'POST'; f.action = 'https://formsubmit.co/jepkoechdilex@gmail.com'; f.style.display = 'none';
     data.append('_next', location.origin + location.pathname + '?order=sent');
     data.forEach((v, k) => { const i = document.createElement('input'); i.type = 'hidden'; i.name = k; i.value = v; f.appendChild(i); });
     document.body.appendChild(f);
